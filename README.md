@@ -2,21 +2,11 @@
 
 Languages: [한국어](#한국어) | [English](#english) | [Русский](#русский)
 
-## Search Keywords
-
-한국어: 트위치 팟플레이어 720p 해결, 트위치 팟플레이어 1080p, 트위치 팟플레이어 원본화질, 트위치 팟플레이어 광고 없음, 트위치 팟플레이어 광고 없이, 팟플레이어 트위치 연결 플러그인, 팟플레이어 트위치 원본소스, 트위치 720p 제한, 한국 트위치 1080p 안됨, 러시아 트위치 1080p 안됨, Bluesky 프레임 보간.
-
-English: Twitch PotPlayer 720p fix, Twitch PotPlayer 1080p, Twitch PotPlayer source quality, Twitch PotPlayer no ads, Twitch PotPlayer ad-free, Twitch PotPlayer connector, PotPlayer Twitch original quality, Tampermonkey Twitch PotPlayer, Streamlink Twitch, Korea Twitch 720p, Russia Twitch 720p.
-
-Русский: Twitch PotPlayer 720p ограничение, Twitch PotPlayer 1080p, Twitch PotPlayer исходное качество, Twitch PotPlayer без рекламы, Twitch PotPlayer ad-free, PotPlayer Twitch source quality, Twitch 1080p не работает, Tampermonkey Twitch PotPlayer, Streamlink Twitch.
-
 ## 한국어
 
 **Twitch PotPlayer 720p Fix - 1080p Source Quality Connector**는 Twitch 방송을 PotPlayer에서 원본화질/source quality로 열기 위한 Tampermonkey 우클릭 메뉴와 Windows 실행 도구입니다. 브라우저에서 우클릭하면 PotPlayer로 연결해주는 플러그인처럼 동작합니다.
 
 한국/러시아 등 일부 환경에서는 기존 Chrome 확장 프로그램이나 PotPlayer의 기본 Twitch 링크 열기가 720p까지만 잡히는 경우가 있습니다. “트위치 1080p 안됨”, “트위치 팟플레이어 720p”, “트위치 원본화질 안 나옴” 같은 상황을 위한 도구입니다. 이 도구는 Twitch 페이지 주소를 그대로 넘기지 않고, ReYohoho 방식의 프록시 요청으로 Twitch HLS playlist에서 `IVS-VARIANT-SOURCE="source"` 항목을 직접 선택한 뒤 Streamlink를 통해 PotPlayer로 넘깁니다.
-
-검색 키워드: 트위치 팟플레이어 720p 해결, 트위치 팟플레이어 1080p, 트위치 팟플레이어 원본화질, 트위치 팟플레이어 광고 없음, 트위치 팟플레이어 광고 없이, 팟플레이어 트위치 연결 플러그인, 한국 트위치 1080p 안됨, Twitch PotPlayer source quality, Twitch 720p fix, PotPlayer Twitch 1080p, Tampermonkey Twitch PotPlayer, Streamlink Twitch, Bluesky Frame Rate Converter.
 
 ### 필수 다운로드
 
@@ -110,8 +100,6 @@ open-twitch-source.cmd aceu
 
 Some PotPlayer setups or Chrome extensions open Twitch by passing the normal Twitch page URL to PotPlayer. Depending on region, codec handling, or PotPlayer's internal HLS source, this can get stuck at 720p. This is common for users searching from Korea, Russia, and other regions where Twitch 1080p/source playback is unreliable. This project takes a different route: it requests the Twitch HLS playlist, selects the `IVS-VARIANT-SOURCE="source"` variant, and hands it to PotPlayer through Streamlink.
 
-Search keywords: Twitch PotPlayer source quality, Twitch 720p fix, PotPlayer Twitch 1080p, Twitch PotPlayer no ads, Twitch PotPlayer ad-free, Twitch PotPlayer connector, Korea Twitch 1080p, Russia Twitch 1080p, Tampermonkey Twitch PotPlayer, Streamlink Twitch, Bluesky Frame Rate Converter.
-
 ### Required Downloads
 
 Download the full repository first. `install-protocol.cmd` needs the `scripts` folder, so downloading only the `.cmd` file is not enough.
@@ -204,8 +192,6 @@ If you double-click `open-twitch-source.cmd`, it will ask you to paste a Twitch 
 
 В некоторых регионах и конфигурациях обычное открытие Twitch-ссылки в PotPlayer или через расширение Chrome может давать только 720p. Это особенно полезно для пользователей из России, Кореи и других регионов, где Twitch 1080p/source quality работает нестабильно. Этот проект не передает обычную страницу Twitch напрямую в PotPlayer. Вместо этого он получает HLS playlist, выбирает вариант `IVS-VARIANT-SOURCE="source"` и открывает его через Streamlink в PotPlayer.
 
-Ключевые слова: Twitch PotPlayer source quality, Twitch 720p fix, PotPlayer Twitch 1080p, Twitch PotPlayer 720p ограничение, Twitch PotPlayer без рекламы, Twitch PotPlayer ad-free, Twitch 1080p не работает, исходное качество Twitch PotPlayer, Tampermonkey Twitch PotPlayer, Streamlink Twitch, Bluesky Frame Rate Converter.
-
 ### Обязательные загрузки
 
 Сначала скачайте весь репозиторий. `install-protocol.cmd` использует файлы из папки `scripts`, поэтому одного `.cmd` файла недостаточно.
@@ -291,6 +277,14 @@ open-twitch-source.cmd aceu
 - Меню обычных расширений PotPlayer может по-прежнему открывать Twitch старым способом. Используйте меню Tampermonkey из этого проекта.
 - 32-bit PotPlayer имеет смысл только для старых 32-bit фильтров. Основной путь этого проекта рассчитан на PotPlayer 64-bit.
 - Launcher использует более стабильный HLS buffer в Streamlink. Задержка может увеличиться на несколько секунд, но буферизация должна стать реже.
+
+## Search Keywords / 검색 키워드 / Ключевые слова
+
+한국어: 트위치 팟플레이어 720p 해결, 트위치 팟플레이어 1080p, 트위치 팟플레이어 원본화질, 트위치 팟플레이어 광고 없음, 트위치 팟플레이어 광고 없이, 팟플레이어 트위치 연결 플러그인, 팟플레이어 트위치 원본소스, 트위치 720p 제한, 한국 트위치 1080p 안됨, 러시아 트위치 1080p 안됨, Bluesky 프레임 보간.
+
+English: Twitch PotPlayer 720p fix, Twitch PotPlayer 1080p, Twitch PotPlayer source quality, Twitch PotPlayer no ads, Twitch PotPlayer ad-free, Twitch PotPlayer connector, PotPlayer Twitch original quality, Tampermonkey Twitch PotPlayer, Streamlink Twitch, Korea Twitch 720p, Russia Twitch 720p.
+
+Русский: Twitch PotPlayer 720p ограничение, Twitch PotPlayer 1080p, Twitch PotPlayer исходное качество, Twitch PotPlayer без рекламы, Twitch PotPlayer ad-free, PotPlayer Twitch source quality, Twitch 1080p не работает, Tampermonkey Twitch PotPlayer, Streamlink Twitch.
 
 ## Credits
 
