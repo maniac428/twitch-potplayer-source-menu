@@ -60,8 +60,7 @@ open-twitch-source.cmd aceu
 - 방송 자체가 720p까지만 송출 중이면 원본화질도 720p입니다.
 - 이 도구는 공개 프록시 엔드포인트에 의존하므로, 프록시 상태에 따라 실패할 수 있습니다.
 - Twitch 계정 쿠키나 auth-token을 사용하지 않습니다.
-- "광고 없음"은 브라우저 플레이어를 거치지 않고 PotPlayer로 열 때 웹 플레이어 광고 화면이나 UI를 피할 수 있다는 뜻입니다. Twitch의 모든 광고를 영구 차단한다고 보장하는 도구는 아닙니다.
-- 일반 PotPlayer 브라우저 확장은 Twitch 페이지 주소를 그대로 넘겨 720p로 열릴 수 있습니다. 이 도구는 Twitch HLS source variant를 직접 골라 넘기는 방식입니다.
+- "광고 없음"은 PotPlayer로 직접 열 때 웹 플레이어 광고 화면이나 UI를 피할 수 있다는 뜻입니다. Twitch의 모든 광고를 영구 차단한다고 보장하는 도구는 아닙니다.
 
 ## English
 
@@ -117,8 +116,7 @@ open-twitch-source.cmd aceu
 - If the streamer only broadcasts up to 720p, the source variant will also be 720p.
 - This tool depends on public proxy endpoints, so proxy outages can break playback.
 - It does not use your Twitch cookies or auth-token.
-- "No ads" means opening Twitch outside the browser player may avoid browser ad screens or web-player UI in some setups. It is not a guaranteed permanent Twitch ad blocker.
-- Generic PotPlayer browser extensions may pass the normal Twitch page URL and still open 720p. This tool selects the Twitch HLS source variant directly.
+- "No ads" means opening Twitch directly in PotPlayer may avoid web-player ad screens or UI in some setups. It is not a guaranteed permanent Twitch ad blocker.
 
 ## Русский
 
@@ -174,8 +172,7 @@ open-twitch-source.cmd aceu
 - Если сам стример вещает только в 720p, source тоже будет 720p.
 - Инструмент зависит от публичных proxy endpoints, поэтому при сбоях proxy воспроизведение может не работать.
 - Twitch cookies и auth-token не используются.
-- "Без рекламы" означает, что открытие вне браузерного player иногда помогает избежать рекламного экрана или web-player UI. Это не гарантированный постоянный ad blocker для Twitch.
-- Обычные расширения PotPlayer могут передавать обычную ссылку Twitch-страницы и открывать 720p. Этот launcher выбирает Twitch HLS source variant напрямую.
+- "Без рекламы" означает, что открытие напрямую в PotPlayer иногда помогает избежать рекламного экрана или web-player UI. Это не гарантированный постоянный ad blocker для Twitch.
 
 ## Search Keywords / 검색 키워드 / Ключевые слова
 
