@@ -1,0 +1,1 @@
+Open Twitch streams in PotPlayer at source/original quality via Tampermonkey, Streamlink, and a Windows twitchpotplayer:// protocol handler. Fixes many Twitch PotPlayer 720p-only cases.
