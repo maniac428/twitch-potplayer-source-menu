@@ -268,7 +268,7 @@ foreach ($proxy in $ProxyServers) {
     }
 
     Write-Host "Opening via Streamlink pipe..."
-    $streamlinkArgs = '--player "' + $potPlayer + '" "' + ("hls://" + $variant.Url) + '" best'
+    $streamlinkArgs = '--hls-live-edge 5 --stream-segment-threads 3 --stream-segment-attempts 5 --stream-segment-timeout 20 --ringbuffer-size 64M --player "' + $potPlayer + '" "' + ("hls://" + $variant.Url) + '" best'
     Write-LauncherLog ("StreamlinkArgs=" + $streamlinkArgs)
     Start-Process -FilePath $streamlink -ArgumentList $streamlinkArgs -WindowStyle Hidden
     exit 0

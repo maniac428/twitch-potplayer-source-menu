@@ -99,6 +99,7 @@ If you double-click `open-twitch-source.cmd`, it will ask you to paste a Twitch 
 - This project does not use your Twitch cookies or auth-token.
 - Generic PotPlayer browser-extension link menus may still open Twitch the old way. Use this Tampermonkey menu for the source-quality route.
 - Use 32-bit PotPlayer only if you depend on old 32-bit-only filters. This project is designed around PotPlayer 64-bit.
+- Streamlink uses a stability-oriented HLS buffer by default in this launcher. This can add a few seconds of latency, but it reduces live-stream buffering.
 
 ## 한국어
 
@@ -189,6 +190,7 @@ open-twitch-source.cmd aceu
 - 이 스크립트는 Twitch 로그인 쿠키나 auth-token을 사용하지 않습니다.
 - 기존 `PotPlayer YouTube Shortcut` 확장의 `Open link in PotPlayer` 메뉴는 Twitch에서 720p로 빠질 수 있습니다. 이 저장소의 Tampermonkey 메뉴를 사용하세요.
 - 32비트 PotPlayer는 오래된 32비트 전용 필터가 꼭 필요할 때만 고려하세요. 이 프로젝트의 기본 경로는 64비트 PotPlayer입니다.
+- 이 런처는 Streamlink HLS 버퍼를 안정성 위주로 설정합니다. 지연은 몇 초 늘 수 있지만 라이브 버퍼링은 줄어듭니다.
 
 ## Русский
 
@@ -279,6 +281,7 @@ open-twitch-source.cmd aceu
 - Скрипт не использует ваши Twitch cookies или auth-token.
 - Меню обычных расширений PotPlayer может по-прежнему открывать Twitch старым способом. Используйте меню Tampermonkey из этого проекта.
 - 32-bit PotPlayer имеет смысл только для старых 32-bit фильтров. Основной путь этого проекта рассчитан на PotPlayer 64-bit.
+- Launcher использует более стабильный HLS buffer в Streamlink. Задержка может увеличиться на несколько секунд, но буферизация должна стать реже.
 
 ## Credits
 
