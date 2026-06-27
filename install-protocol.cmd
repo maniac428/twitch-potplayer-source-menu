@@ -3,7 +3,6 @@ setlocal EnableExtensions
 
 set "ROOT=%~dp0"
 set "REGISTER=%ROOT%scripts\Register_TwitchPotPlayer_Protocol.ps1"
-set "USERJS=%ROOT%twitch-potplayer-source-menu.user.js"
 
 echo Twitch PotPlayer 720p Fix installer
 echo.
@@ -58,17 +57,10 @@ if defined STREAMLINK_FOUND (
   echo           Install Streamlink: https://streamlink.github.io/install.html
 )
 
-if exist "%USERJS%" (
-  echo [OK] Tampermonkey userscript file found.
-) else (
-  echo [MISSING] Tampermonkey userscript file was not found.
-)
-
 echo.
 echo Next step:
-echo 1. Install Tampermonkey in Chrome.
-echo 2. Add this userscript to Tampermonkey:
-echo    %USERJS%
-echo 3. On Twitch, right-click and choose "Open in PotPlayer source quality".
+echo 1. Run open-twitch-source.cmd.
+echo 2. Paste a Twitch channel name or URL.
+echo 3. PotPlayer should open through Streamlink at source quality when available.
 echo.
 pause

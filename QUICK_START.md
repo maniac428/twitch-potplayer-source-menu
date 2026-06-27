@@ -2,12 +2,10 @@
 
 ## 한국어
 
-1. PotPlayer 64비트, Streamlink, Chrome, Tampermonkey를 설치합니다.
-2. `install-protocol.cmd`를 실행합니다.
-3. `twitch-potplayer-source-menu.user.js`를 Tampermonkey에 추가합니다.
-4. Twitch에서 방송을 우클릭하고 `Open in PotPlayer source quality`를 누릅니다.
-
-CMD 직접 실행:
+1. PotPlayer 64비트와 Streamlink를 설치합니다.
+2. 최신 릴리스 ZIP을 받고 압축을 풉니다.
+3. `open-twitch-source.cmd`를 실행합니다.
+4. Twitch 채널명이나 링크를 붙여넣습니다.
 
 ```cmd
 open-twitch-source.cmd "https://www.twitch.tv/aceu"
@@ -17,27 +15,23 @@ open-twitch-source.cmd "https://www.twitch.tv/aceu"
 
 ## English
 
-1. Install PotPlayer 64-bit, Streamlink, Chrome, and Tampermonkey.
-2. Run `install-protocol.cmd`.
-3. Add `twitch-potplayer-source-menu.user.js` to Tampermonkey.
-4. On Twitch, right-click a stream and choose `Open in PotPlayer source quality`.
-
-Direct CMD usage:
+1. Install PotPlayer 64-bit and Streamlink.
+2. Download and extract the latest release ZIP.
+3. Run `open-twitch-source.cmd`.
+4. Paste a Twitch channel name or URL.
 
 ```cmd
 open-twitch-source.cmd "https://www.twitch.tv/aceu"
 ```
 
-Do not run only one downloaded `.cmd` file. Keep the full folder, including the `scripts` directory.
+Do not download only one `.cmd` file. Keep the full folder, including the `scripts` directory.
 
 ## Русский
 
-1. Установите PotPlayer 64-bit, Streamlink, Chrome и Tampermonkey.
-2. Запустите `install-protocol.cmd`.
-3. Добавьте `twitch-potplayer-source-menu.user.js` в Tampermonkey.
-4. На Twitch нажмите правой кнопкой мыши на стрим и выберите `Open in PotPlayer source quality`.
-
-Запуск через CMD:
+1. Установите PotPlayer 64-bit и Streamlink.
+2. Скачайте и распакуйте последний release ZIP.
+3. Запустите `open-twitch-source.cmd`.
+4. Вставьте имя Twitch-канала или ссылку.
 
 ```cmd
 open-twitch-source.cmd "https://www.twitch.tv/aceu"
