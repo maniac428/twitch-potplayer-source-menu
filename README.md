@@ -2,6 +2,11 @@
 
 Languages: [한국어](#한국어) | [English](#english) | [Русский](#русский)
 
+관련 프로젝트:
+
+- Twitch 720p/1080p 원본화질용: [twitch-potplayer-720p-fix](https://github.com/maniac428/twitch-potplayer-720p-fix)
+- 치지직 PotPlayer yt-dlp 설치용: [chzzk-potplayer-ytdlp-installer](https://github.com/maniac428/chzzk-potplayer-ytdlp-installer)
+
 ## 한국어
 
 **Twitch PotPlayer 720p Fix - 1080p Source Quality Connector**는 Twitch 방송을 PotPlayer에서 원본화질/source quality로 열기 위한 Tampermonkey 우클릭 메뉴와 Windows 실행 도구입니다. 브라우저에서 우클릭하면 PotPlayer로 연결해주는 플러그인처럼 동작합니다.
