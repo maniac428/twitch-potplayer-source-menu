@@ -2,6 +2,14 @@
 
 Languages: [English](#english) | [한국어](#한국어) | [Русский](#русский)
 
+## Search Keywords
+
+English: Twitch PotPlayer 720p fix, Twitch PotPlayer source quality, Twitch PotPlayer 1080p, PotPlayer Twitch original quality, Tampermonkey Twitch PotPlayer, Streamlink Twitch.
+
+한국어: 트위치 팟플레이어 720p 해결, 트위치 팟플레이어 원본화질, 트위치 팟플레이어 1080p, 팟플레이어 트위치 원본소스, 트위치 720p 제한, Bluesky 프레임 보간.
+
+Русский: Twitch PotPlayer 720p ограничение, Twitch PotPlayer исходное качество, Twitch PotPlayer 1080p, PotPlayer Twitch source quality, Tampermonkey Twitch PotPlayer, Streamlink Twitch.
+
 ## English
 
 **Twitch PotPlayer 720p Fix - Source Quality Menu** opens Twitch livestreams in PotPlayer at source/original quality from a Tampermonkey right-click menu.
@@ -16,6 +24,7 @@ Download the full repository first. `install-protocol.cmd` needs the `scripts` f
 
 | File or tool | Download link |
 | --- | --- |
+| Beginner ZIP, recommended | [twitch-potplayer-720p-fix-beginner.zip](https://github.com/maniac428/twitch-potplayer-source-menu/releases/latest/download/twitch-potplayer-720p-fix-beginner.zip) |
 | Full repository ZIP | [Download main.zip](https://github.com/maniac428/twitch-potplayer-source-menu/archive/refs/heads/main.zip) |
 | Tampermonkey userscript | [twitch-potplayer-source-menu.user.js](https://raw.githubusercontent.com/maniac428/twitch-potplayer-source-menu/main/twitch-potplayer-source-menu.user.js) |
 | Direct CMD launcher | [open-twitch-source.cmd](https://raw.githubusercontent.com/maniac428/twitch-potplayer-source-menu/main/open-twitch-source.cmd) |
@@ -105,6 +114,7 @@ If you double-click `open-twitch-source.cmd`, it will ask you to paste a Twitch 
 
 | 파일 또는 도구 | 다운로드 링크 |
 | --- | --- |
+| 초보자용 ZIP, 권장 | [twitch-potplayer-720p-fix-beginner.zip](https://github.com/maniac428/twitch-potplayer-source-menu/releases/latest/download/twitch-potplayer-720p-fix-beginner.zip) |
 | 전체 저장소 ZIP | [main.zip 다운로드](https://github.com/maniac428/twitch-potplayer-source-menu/archive/refs/heads/main.zip) |
 | Tampermonkey 유저스크립트 | [twitch-potplayer-source-menu.user.js](https://raw.githubusercontent.com/maniac428/twitch-potplayer-source-menu/main/twitch-potplayer-source-menu.user.js) |
 | 직접 실행용 CMD | [open-twitch-source.cmd](https://raw.githubusercontent.com/maniac428/twitch-potplayer-source-menu/main/open-twitch-source.cmd) |
@@ -194,6 +204,7 @@ open-twitch-source.cmd aceu
 
 | Файл или инструмент | Ссылка |
 | --- | --- |
+| ZIP для начинающих, рекомендуется | [twitch-potplayer-720p-fix-beginner.zip](https://github.com/maniac428/twitch-potplayer-source-menu/releases/latest/download/twitch-potplayer-720p-fix-beginner.zip) |
 | Полный ZIP репозитория | [Скачать main.zip](https://github.com/maniac428/twitch-potplayer-source-menu/archive/refs/heads/main.zip) |
 | Userscript для Tampermonkey | [twitch-potplayer-source-menu.user.js](https://raw.githubusercontent.com/maniac428/twitch-potplayer-source-menu/main/twitch-potplayer-source-menu.user.js) |
 | CMD launcher напрямую | [open-twitch-source.cmd](https://raw.githubusercontent.com/maniac428/twitch-potplayer-source-menu/main/open-twitch-source.cmd) |
