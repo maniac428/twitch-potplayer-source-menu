@@ -5,7 +5,7 @@ set "ROOT=%~dp0"
 set "REGISTER=%ROOT%scripts\Register_TwitchPotPlayer_Protocol.ps1"
 set "USERJS=%ROOT%twitch-potplayer-source-menu.user.js"
 
-echo Twitch PotPlayer Source Menu installer
+echo Twitch PotPlayer 720p Fix installer
 echo.
 
 if not exist "%REGISTER%" (

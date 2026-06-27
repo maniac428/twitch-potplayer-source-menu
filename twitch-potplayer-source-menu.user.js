@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Twitch PotPlayer Source Menu
+// @name         Twitch PotPlayer 720p Fix
 // @namespace    local.twitchpotplayer.source
 // @version      1.0.0
-// @description  Open Twitch channels in PotPlayer source quality via twitchpotplayer://
+// @description  Open Twitch streams in PotPlayer source quality / 1080p via twitchpotplayer://
 // @match        https://www.twitch.tv/*
 // @match        https://twitch.tv/*
 // @grant        GM_registerMenuCommand
