@@ -1,16 +1,19 @@
 param(
   [string]$Target = "",
-  [switch]$NoLaunch
+  [switch]$NoLaunch,
+  [ValidateRange(2, 60)]
+  [int]$ProxyTimeoutSec = 8,
+  [switch]$SkipProxyCache
 )
 
 $ErrorActionPreference = "Stop"
 
 $ClientId = "kimne78kx3ncx6brgo4mv6wki5h1ko"
 $PlaybackAccessTokenHash = "ed230aa1e33e07eebb8928504583da78a5173989fadfb1ac94be06a04f3cdbe9"
-$ProxyServers = @(
+$BuiltInProxyServers = @(
+  "https://proxy5.rte.net.ru/",
   "https://proxy4.rte.net.ru/",
   "https://proxy7.rte.net.ru/",
-  "https://proxy5.rte.net.ru/",
   "https://proxy6.rte.net.ru/"
 )
 
@@ -119,6 +122,148 @@ function Get-TextFromWebResponse {
   return [string]$Response.Content
 }
 
+function Normalize-ProxyUrl {
+  param([string]$Proxy)
+
+  if ([string]::IsNullOrWhiteSpace($Proxy)) {
+    return ""
+  }
+
+  $clean = $Proxy.Trim()
+  if ($clean -notmatch "^https?://") {
+    $clean = "https://$clean"
+  }
+  if (-not $clean.EndsWith("/")) {
+    $clean += "/"
+  }
+
+  return $clean
+}
+
+function Split-ProxyList {
+  param([string]$Value)
+
+  if ([string]::IsNullOrWhiteSpace($Value)) {
+    return @()
+  }
+
+  return $Value -split "[,;`r`n]+" | ForEach-Object { $_.Trim() } | Where-Object { $_ }
+}
+
+function Get-ProxyCachePath {
+  return (Join-Path $env:TEMP "TwitchSourceLauncher.proxy.json")
+}
+
+function Read-ProxyCache {
+  if ($SkipProxyCache) {
+    return @()
+  }
+
+  $path = Get-ProxyCachePath
+  if (-not (Test-Path -LiteralPath $path)) {
+    return @()
+  }
+
+  try {
+    $cache = Get-Content -Raw -LiteralPath $path -Encoding UTF8 | ConvertFrom-Json
+    $proxies = @()
+    if ($cache.lastSuccessfulProxy) {
+      $proxies += $cache.lastSuccessfulProxy
+    }
+    if ($cache.successfulProxies) {
+      $proxies += @($cache.successfulProxies)
+    }
+
+    return $proxies
+  } catch {
+    return @()
+  }
+}
+
+function Write-ProxyCache {
+  param([string]$Proxy)
+
+  if ($SkipProxyCache -or [string]::IsNullOrWhiteSpace($Proxy)) {
+    return
+  }
+
+  try {
+    $path = Get-ProxyCachePath
+    $previous = @()
+    if (Test-Path -LiteralPath $path) {
+      $cache = Get-Content -Raw -LiteralPath $path -Encoding UTF8 | ConvertFrom-Json
+      if ($cache.successfulProxies) {
+        $previous += @($cache.successfulProxies)
+      }
+      if ($cache.lastSuccessfulProxy) {
+        $previous += $cache.lastSuccessfulProxy
+      }
+    }
+
+    $successfulProxies = @($Proxy) + $previous |
+      ForEach-Object { Normalize-ProxyUrl $_ } |
+      Where-Object { $_ } |
+      Select-Object -Unique -First 8
+
+    $payload = [pscustomobject]@{
+      lastSuccessfulProxy = (Normalize-ProxyUrl $Proxy)
+      successfulProxies = @($successfulProxies)
+      updatedAt = (Get-Date).ToUniversalTime().ToString("o")
+    }
+
+    $payload | ConvertTo-Json -Depth 5 -Compress | Set-Content -LiteralPath $path -Encoding UTF8
+  } catch {
+  }
+}
+
+function Get-ProxyOverrides {
+  $proxies = @()
+  $proxies += @(Split-ProxyList $env:TWITCH_POTPLAYER_PROXIES)
+
+  $candidateFiles = @()
+  if ($PSScriptRoot) {
+    $candidateFiles += (Join-Path $PSScriptRoot "proxies.txt")
+    $parentPath = Split-Path -Parent $PSScriptRoot
+    if ($parentPath) {
+      $candidateFiles += (Join-Path $parentPath "proxies.txt")
+    }
+  }
+
+  foreach ($path in $candidateFiles) {
+    if (-not (Test-Path -LiteralPath $path)) {
+      continue
+    }
+
+    try {
+      $proxies += @(Split-ProxyList (Get-Content -Raw -LiteralPath $path -Encoding UTF8))
+    } catch {
+    }
+  }
+
+  return $proxies
+}
+
+function Get-OrderedProxyServers {
+  $candidates = @()
+  $candidates += @(Get-ProxyOverrides)
+  $candidates += @(Read-ProxyCache)
+  $candidates += @($BuiltInProxyServers)
+
+  $seen = @{}
+  $ordered = New-Object System.Collections.Generic.List[string]
+  foreach ($proxy in $candidates) {
+    $normalized = Normalize-ProxyUrl $proxy
+    if (-not $normalized -or $seen.ContainsKey($normalized)) {
+      continue
+    }
+
+    $seen[$normalized] = $true
+    [void]$ordered.Add($normalized)
+  }
+
+  return $ordered.ToArray()
+}
+
 function Get-VariantScore {
   param([string]$Info)
 
@@ -196,7 +341,12 @@ if ([string]::IsNullOrWhiteSpace($channel)) {
 }
 
 Write-Host "Target channel: $channel"
-Write-LauncherLog "Target=$Target Channel=$channel NoLaunch=$NoLaunch"
+$proxyServers = Get-OrderedProxyServers
+if ($proxyServers.Count -eq 0) {
+  throw "No proxy servers were configured."
+}
+
+Write-LauncherLog "Target=$Target Channel=$channel NoLaunch=$NoLaunch ProxyTimeoutSec=$ProxyTimeoutSec ProxyCount=$($proxyServers.Count)"
 
 $headers = @{
   "Client-ID" = $ClientId
@@ -224,17 +374,18 @@ $bodyObject = @{
 $body = $bodyObject | ConvertTo-Json -Depth 20 -Compress
 $lastError = $null
 
-foreach ($proxy in $ProxyServers) {
+foreach ($proxy in $proxyServers) {
   try {
-    Write-Host "Trying proxy: $proxy"
-    Write-LauncherLog "Trying proxy=$proxy"
+    Write-Host ("Trying proxy ({0}s timeout): {1}" -f $ProxyTimeoutSec, $proxy)
+    Write-LauncherLog "Trying proxy=$proxy TimeoutSec=$ProxyTimeoutSec"
 
     $tokenResponse = Invoke-RestMethod `
       -Method Post `
       -Uri ($proxy + "https://gql.twitch.tv/gql") `
       -Headers $headers `
       -Body $body `
-      -ContentType "application/json"
+      -ContentType "application/json" `
+      -TimeoutSec $ProxyTimeoutSec
 
     $accessToken = $tokenResponse.data.streamPlaybackAccessToken
     if (-not $accessToken -or -not $accessToken.value -or -not $accessToken.signature) {
@@ -252,7 +403,8 @@ foreach ($proxy in $ProxyServers) {
     $playlistResponse = Invoke-WebRequest `
       -Uri ($proxy + $usherUrl) `
       -Headers @{ "User-Agent" = "Mozilla/5.0" } `
-      -UseBasicParsing
+      -UseBasicParsing `
+      -TimeoutSec $ProxyTimeoutSec
 
     $playlist = Get-TextFromWebResponse $playlistResponse
     $variant = Get-SourceVariantUrl $playlist
@@ -260,6 +412,7 @@ foreach ($proxy in $ProxyServers) {
     Write-Host ("Selected: " + $variant.Info)
     Write-LauncherLog ("Selected=" + $variant.Info)
     Write-LauncherLog ("SelectedUrl=" + $variant.Url)
+    Write-ProxyCache $proxy
 
     if ($NoLaunch) {
       Write-Host ("NO_LAUNCH_SELECTED: " + $variant.Info)
