@@ -321,6 +321,75 @@ function Get-SourceVariantUrl {
   return $variants | Sort-Object Score -Descending | Select-Object -First 1
 }
 
+function Get-SafePlayerTitle {
+  param([string]$Value)
+
+  if ([string]::IsNullOrWhiteSpace($Value)) {
+    return ""
+  }
+
+  $clean = $Value -replace "[\x00-\x1F\x7F]", " "
+  $clean = $clean -replace '"', "'"
+  $clean = $clean -replace "\\", "/"
+  $clean = $clean -replace "[{}]", ""
+  $clean = $clean -replace "\s+", " "
+  $clean = $clean.Trim()
+
+  if ($clean.Length -gt 180) {
+    $clean = $clean.Substring(0, 180).Trim()
+  }
+
+  return $clean
+}
+
+function Get-TwitchPlayerTitle {
+  param(
+    [string]$Proxy,
+    [string]$Channel,
+    [hashtable]$Headers,
+    [int]$TimeoutSec
+  )
+
+  try {
+    $bodyObject = @{
+      operationName = "GetStreamTitle"
+      query = 'query GetStreamTitle($login: String!) { user(login: $login) { displayName stream { title game { name } } } }'
+      variables = @{
+        login = $Channel
+      }
+    }
+    $body = $bodyObject | ConvertTo-Json -Depth 20 -Compress
+
+    $response = Invoke-RestMethod `
+      -Method Post `
+      -Uri ($Proxy + "https://gql.twitch.tv/gql") `
+      -Headers $Headers `
+      -Body $body `
+      -ContentType "application/json" `
+      -TimeoutSec $TimeoutSec
+
+    $user = $response.data.user
+    if (-not $user) {
+      return $Channel
+    }
+
+    $displayName = Get-SafePlayerTitle $user.displayName
+    if (-not $displayName) {
+      $displayName = $Channel
+    }
+
+    $streamTitle = Get-SafePlayerTitle $user.stream.title
+    if ($streamTitle) {
+      return (Get-SafePlayerTitle ($displayName + " - " + $streamTitle))
+    }
+
+    return $displayName
+  } catch {
+    Write-LauncherLog ("Failed to fetch stream title. Error=" + $_.Exception.Message)
+    return $Channel
+  }
+}
+
 if ([string]::IsNullOrWhiteSpace($Target)) {
   $Target = Read-Host "Paste Twitch channel name or URL"
 }
@@ -413,15 +482,19 @@ foreach ($proxy in $proxyServers) {
     Write-LauncherLog ("Selected=" + $variant.Info)
     Write-LauncherLog ("SelectedUrl=" + $variant.Url)
     Write-ProxyCache $proxy
+    $playerTitle = Get-TwitchPlayerTitle -Proxy $proxy -Channel $channel -Headers $headers -TimeoutSec $ProxyTimeoutSec
+    Write-Host ("Player title: " + $playerTitle)
+    Write-LauncherLog ("PlayerTitle=" + $playerTitle)
 
     if ($NoLaunch) {
       Write-Host ("NO_LAUNCH_SELECTED: " + $variant.Info)
       Write-Host ("NO_LAUNCH_URL: " + $variant.Url)
+      Write-Host ("NO_LAUNCH_TITLE: " + $playerTitle)
       exit 0
     }
 
-    Write-Host "Opening via Streamlink pipe..."
-    $streamlinkArgs = '--hls-live-edge 5 --stream-segment-threads 3 --stream-segment-attempts 5 --stream-segment-timeout 20 --ringbuffer-size 64M --player "' + $potPlayer + '" "' + ("hls://" + $variant.Url) + '" best'
+    Write-Host "Opening via Streamlink..."
+    $streamlinkArgs = '--title "' + $playerTitle + '" --player-continuous-http --retry-open 5 --retry-streams 2 --retry-max 3 --hls-live-edge 8 --stream-segment-threads 3 --stream-segment-attempts 10 --stream-segment-timeout 15 --stream-timeout 60 --http-timeout 20 --ringbuffer-size 128M --player "' + $potPlayer + '" "' + ("hls://" + $variant.Url) + '" best'
     Write-LauncherLog ("StreamlinkArgs=" + $streamlinkArgs)
     Start-Process -FilePath $streamlink -ArgumentList $streamlinkArgs -WindowStyle Hidden
     exit 0
