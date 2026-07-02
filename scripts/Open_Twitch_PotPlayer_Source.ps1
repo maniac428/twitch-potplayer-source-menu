@@ -513,7 +513,7 @@ foreach ($proxy in $proxyServers) {
     }
 
     Write-Host "Opening via Streamlink..."
-    $streamlinkArgs = '--title "' + $playerTitle + '" --player-continuous-http --retry-open 5 --retry-streams 2 --retry-max 3 --hls-live-edge 8 --stream-segment-threads 3 --stream-segment-attempts 10 --stream-segment-timeout 15 --stream-timeout 60 --http-timeout 20 --ringbuffer-size 128M --player "' + $potPlayer + '" "' + ("hls://" + $variant.Url) + '" best'
+    $streamlinkArgs = '--title "' + $playerTitle + '" --player-continuous-http --retry-open 8 --retry-streams 5 --retry-max 5 --hls-live-edge 10 --stream-segment-threads 4 --stream-segment-attempts 10 --stream-segment-timeout 20 --stream-timeout 90 --http-timeout 30 --ringbuffer-size 256M --player "' + $potPlayer + '" "' + ("hls://" + $variant.Url) + '" best'
     Write-LauncherLog ("StreamlinkArgs=" + $streamlinkArgs)
     Start-Process -FilePath $streamlink -ArgumentList $streamlinkArgs -WindowStyle Hidden
     exit 0
